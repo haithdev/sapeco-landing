@@ -109,6 +109,7 @@ const Home: NextPage = () => {
                   placeholder="Họ và tên..."
                   onChange={propsFormik.handleChange}
                   onBlur={propsFormik.handleBlur}
+                  value={propsFormik.values.user_name}
                   required
                 />
                 <div className="invalid-field">{getErrorMsg("user_name")}</div>
@@ -121,6 +122,7 @@ const Home: NextPage = () => {
                   placeholder="Địa chỉ..."
                   onChange={propsFormik.handleChange}
                   onBlur={propsFormik.handleBlur}
+                  value={propsFormik.values.address}
                   required
                 />
                 <div className="invalid-field">{getErrorMsg("address")}</div>
@@ -133,6 +135,7 @@ const Home: NextPage = () => {
                   placeholder="Số điện thoại..."
                   onChange={propsFormik.handleChange}
                   onBlur={propsFormik.handleBlur}
+                  value={propsFormik.values.phone}
                   required
                 />
                 <div className="invalid-field">{getErrorMsg("phone")}</div>
