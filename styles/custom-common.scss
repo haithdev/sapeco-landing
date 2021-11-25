@@ -68,6 +68,15 @@ h2 {
       transform: translate(-50%, -50%);
       z-index: 999;
       width: 50%;
+      @include tablet{
+        width: 30%;
+        padding: 10px 0 !important;
+      }
+      @include mobile{
+        width: 30%;
+        padding: 10px 0 !important;
+
+      }
       padding: 20px 0 !important;
       span {
         font-weight: bold;
