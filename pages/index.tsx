@@ -9,8 +9,9 @@ import googleServices from "services/googleServices";
 import useToggleDialog from "hooks/useToggleDialog";
 import DialogAlert from "components/DialogAlert";
 import { GET_DATA_URL } from "constants/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormBuyingModel from "models/form-buying.model";
+import Scroll from "react-scroll";
 
 const validationLoginSchema = Yup.object().shape({
   user_name: Yup.string().required("Vui lòng nhập đúng họ và tên"),
@@ -23,8 +24,26 @@ const Home: NextPage = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [isHideButton, setHideButton] = useState(true);
 
   const [openDialog, toggleDialog, shouldRenderDialog] = useToggleDialog();
+
+  const Link = Scroll.Link;
+  const Element = Scroll.Element;
+  //! Effect
+  useEffect(() => {
+    window.onscroll = function (ev) {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 2
+      ) {
+        setHideButton(false);
+      } else {
+        setHideButton(true);
+      }
+    };
+  }, []);
+
   //! Function
   const onSubmit = async (
     values: FormBuyingModel,
@@ -54,6 +73,27 @@ const Home: NextPage = () => {
       )}
       <div className="homepage container-custom">
         <div className="homepage-img">
+          <div className="homepage-img-with-button">
+            <img
+              src="/img/LDP 01.png"
+              className="img-fluid custom-img"
+              alt="Responsive image"
+            />
+            <Link to="order-form">
+              <Button
+                className="homepage-img__btn-buy-now btn btn-success"
+                href="#order-form"
+                role="button"
+              >
+                <span>MUA NGAY</span>
+              </Button>
+            </Link>
+          </div>
+          <img
+            src="/img/LDP 02.png"
+            className="img-fluid custom-img"
+            alt="Responsive image"
+          />
           <img
             src="/img/header.jpg"
             className="img-fluid custom-img"
@@ -64,113 +104,110 @@ const Home: NextPage = () => {
             className="img-fluid custom-img"
             alt="Responsive image"
           />
-          <img
-            src="/img/LDP 02.png"
-            className="img-fluid custom-img"
-            alt="Responsive image"
-          />
-
-          <img
-            src="/img/LDP 01.png"
-            className="img-fluid custom-img"
-            alt="Responsive image"
-          />
         </div>
+        <Element>
+          <Formik
+            initialValues={{
+              user_name: "",
+              address: "",
+              phone: "",
+              option: "",
+            }}
+            validationSchema={validationLoginSchema}
+            onSubmit={onSubmit}
+          >
+            {(propsFormik) => {
+              const { errors, touched } = propsFormik;
+              const getErrorMsg = (field: string) => {
+                return !!errors[field] && touched[field] && errors[field];
+              };
 
-        <Formik
-          initialValues={{
-            user_name: "",
-            address: "",
-            phone: "",
-            option: "",
-          }}
-          validationSchema={validationLoginSchema}
-          onSubmit={onSubmit}
-        >
-          {(propsFormik) => {
-            const { errors, touched } = propsFormik;
-            const getErrorMsg = (field: string) => {
-              return !!errors[field] && touched[field] && errors[field];
-            };
-
-            return (
-              <Form
-                id="order-form"
-                className="homepage-order-form needs-validation"
-                noValidate
-              >
-                <h2>Đặt hàng</h2>
-                <Label className="label-field">Họ và Tên</Label>
-                <Input
-                  id="user_name"
-                  name="user_name"
-                  type="text"
-                  className="form-control"
-                  placeholder="Họ và tên..."
-                  onChange={propsFormik.handleChange}
-                  onBlur={propsFormik.handleBlur}
-                  value={propsFormik.values.user_name}
-                  required
-                />
-                <div className="invalid-field">{getErrorMsg("user_name")}</div>
-                <Label className="label-field">Địa chỉ</Label>
-                <Input
-                  id="address"
-                  name="address"
-                  type="text"
-                  className="form-control"
-                  placeholder="Địa chỉ..."
-                  onChange={propsFormik.handleChange}
-                  onBlur={propsFormik.handleBlur}
-                  value={propsFormik.values.address}
-                  required
-                />
-                <div className="invalid-field">{getErrorMsg("address")}</div>
-                <Label className="label-field">Số điện thoại</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="text"
-                  className="form-control"
-                  placeholder="Số điện thoại..."
-                  onChange={propsFormik.handleChange}
-                  onBlur={propsFormik.handleBlur}
-                  value={propsFormik.values.phone}
-                  required
-                />
-                <div className="invalid-field">{getErrorMsg("phone")}</div>
-                <Label className="label-field">Số lượng</Label>
-                <Input
-                  className="form-control"
-                  id="option"
-                  name="option"
-                  type="select"
-                  onChange={propsFormik.handleChange}
-                  onBlur={propsFormik.handleBlur}
+              return (
+                <Form
+                  id="order-form"
+                  className="homepage-order-form needs-validation"
+                  noValidate
                 >
-                  <option>1 hộp - 135,000</option>
-                  <option>2 hộp - 250,000 + Freeship</option>
-                  <option>3 hộp - 350,000 + Freeship</option>
-                </Input>
-                <Button
-                  type="submit"
-                  disabled={propsFormik.isSubmitting}
-                  className="btn btn-success order-btn"
-                >
-                  {propsFormik.isSubmitting ? "Loading..." : "MUA HÀNG"}
-                </Button>
-              </Form>
-            );
-          }}
-        </Formik>
+                  <h2>Đặt hàng</h2>
+                  <Label className="label-field">Họ và Tên</Label>
+                  <Input
+                    id="user_name"
+                    name="user_name"
+                    type="text"
+                    className="form-control"
+                    placeholder="Họ và tên..."
+                    onChange={propsFormik.handleChange}
+                    onBlur={propsFormik.handleBlur}
+                    value={propsFormik.values.user_name}
+                    required
+                  />
+                  <div className="invalid-field">
+                    {getErrorMsg("user_name")}
+                  </div>
+                  <Label className="label-field">Địa chỉ</Label>
+                  <Input
+                    id="address"
+                    name="address"
+                    type="text"
+                    className="form-control"
+                    placeholder="Địa chỉ..."
+                    onChange={propsFormik.handleChange}
+                    onBlur={propsFormik.handleBlur}
+                    value={propsFormik.values.address}
+                    required
+                  />
+                  <div className="invalid-field">{getErrorMsg("address")}</div>
+                  <Label className="label-field">Số điện thoại</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="text"
+                    className="form-control"
+                    placeholder="Số điện thoại..."
+                    onChange={propsFormik.handleChange}
+                    onBlur={propsFormik.handleBlur}
+                    value={propsFormik.values.phone}
+                    required
+                  />
+                  <div className="invalid-field">{getErrorMsg("phone")}</div>
+                  <Label className="label-field">Số lượng</Label>
+                  <Input
+                    className="form-control"
+                    id="option"
+                    name="option"
+                    type="select"
+                    onChange={propsFormik.handleChange}
+                    onBlur={propsFormik.handleBlur}
+                  >
+                    <option>1 hộp - 135,000</option>
+                    <option>2 hộp - 250,000 + Freeship</option>
+                    <option>3 hộp - 350,000 + Freeship</option>
+                  </Input>
+                  <Button
+                    type="submit"
+                    disabled={propsFormik.isSubmitting}
+                    className="btn btn-success order-btn"
+                  >
+                    {propsFormik.isSubmitting ? "Loading..." : "MUA HÀNG"}
+                  </Button>
+                </Form>
+              );
+            }}
+          </Formik>
+        </Element>
         {/*  */}
-        <Button
-          className="homepage-btn__fixed btn btn-success order-fixed"
-          href="#order-form"
-          role="button"
-        >
-          <span>MUA NGAY</span>
-        </Button>
+        {isHideButton ? (
+          <Link to="order-form">
+            <Button
+              className="homepage-btn__fixed btn btn-success order-fixed"
+              role="button"
+            >
+              <span>MUA NGAY</span>
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

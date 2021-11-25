@@ -12,39 +12,91 @@
 }
 
 /*  */
-html{
+html {
   font-family: Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
 }
 
-h2{
+h2 {
   padding: 10px 0;
-  font-size: 1rem;
 }
 .homepage {
   max-width: 750px;
   margin: auto;
-
+  
   @include mobile {
     padding: 6px;
   }
-
+  &-order-form{
+    border: 1px solid var(--color-green);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    h2{
+      font-size: 3rem;
+      text-align: center;
+      font-weight: bold;
+    }
+    input, select{
+      @include mobile{
+        font-size: 1.3rem;
+      }
+    }
+    .label-field{
+      @include mobile{
+        font-size: 1.2rem;
+      }
+      font-weight: 500;
+      margin-top:10px
+      
+    }
+  }
+  &-img-with-button {
+    position: relative;
+  }
   &-img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    &__btn-buy-now {
+      position: absolute;
+      background: var(--color-green) !important;
+      bottom: 0;
+      left: 50%;
+      right: 0;
 
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      width: 50%;
+      padding: 20px 0 !important;
+      span {
+        font-weight: bold;
+        margin: 5px 0;
+      }
+    }
     img {
       width: 750px;
     }
   }
 
   &-btn__fixed {
+    background: var(--color-green) !important;
     position: fixed;
-    bottom: 50px;
-    right: 20px;
+    bottom: 20px;
+    right: 0;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    width: 10%;
+    padding: 10px 20px !important;
+    animation: mymove 2s infinite;
   }
-  .order-btn{
+  @keyframes mymove {
+    50% {box-shadow: 0 0 25px green;}
+  }
+  .order-btn {
+    background: var(--color-green) !important;
+    padding: 10px 0 !important;
+    font-weight: bold;
     margin: 20px 0;
     width: 100%;
   }
