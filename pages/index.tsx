@@ -67,7 +67,7 @@ const Home: NextPage = () => {
   //! Render
   return (
     //
-    <div className="">
+    <div className="ld">
       {shouldRenderDialog && (
         <DialogAlert isOpen={openDialog} toggle={toggleDialog} />
       )}
@@ -105,7 +105,7 @@ const Home: NextPage = () => {
             alt="Responsive image"
           />
         </div>
-        <Element>
+        <Element name="order-form">
           <Formik
             initialValues={{
               user_name: "",
