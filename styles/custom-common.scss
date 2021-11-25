@@ -89,6 +89,12 @@ h2 {
     width: 10%;
     padding: 10px 20px !important;
     animation: mymove 2s infinite;
+    @include tablet{
+      width: 20%;
+    }
+    @include mobile{
+      width: 30%;
+    }
   }
   @keyframes mymove {
     50% {box-shadow: 0 0 25px green;}
